@@ -1,0 +1,86 @@
+/*Given a generic tree, count and return the sum of all nodes present in the given tree.
+
+
+
+For the above tree , total sum of all nodes is 10 + 30 + 50 + 25 + 5 + 45 + 56 + 34 = 225
+Detailed explanation ( Input/output format, Notes, Images )
+Sample Input :
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output :
+190
+Explananation
+For 10, 3 children are there : 20, 30, 40
+For 20. 2 children are there : 40, 50
+For 30, 40, 40, 50 no child is there , so the answer for this is 10+20+30+40+40+50 = 190*/
+public class Solution {
+
+    public static TreeNode<Integer> levelWiseInput() {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Enter Root's Data: ");
+        int rootData = scan.nextInt(); // Taking root's data input
+        if (rootData == -1) return null; // User doesn't want to enter anything.
+        var root = new TreeNode<Integer>(rootData);
+//        Queue of BinaryTreeNode type
+        Queue<TreeNode<Integer>> pendingChildren = new LinkedList<TreeNode<Integer>>();
+        pendingChildren.add(root); // adding root in the queue
+//        Till the queue is not empty taking input
+        while (!pendingChildren.isEmpty()) {
+            var front = pendingChildren.remove();
+//            Asking for left child of front
+            System.out.print("Enter left child of " + front.data + ": ");
+            int leftData = scan.nextInt();
+            if (leftData != -1) {
+                var leftChild = new TreeNode<Integer>(leftData);
+                front.left = leftChild;
+                pendingChildren.add(leftChild);
+            }
+//            Asking for right child of front
+            System.out.print("Enter right child of " + front.data + ": ");
+            int rightData = scan.nextInt();
+            if (rightData != -1) {
+                var rightChild = new TreeNode<Integer>(rightData);
+                front.right = rightChild;
+                pendingChildren.add(rightChild);
+            }
+        }
+        return root;
+    }
+
+    public static void printLevelWise(TreeNode<Integer> root) {
+        if (root == null) return;
+
+        Queue<TreeNode<Integer>> pendingChildren = new LinkedList<TreeNode<Integer>>();
+        pendingChildren.add(root);
+
+        while (!pendingChildren.isEmpty()) {
+            var front = pendingChildren.remove();
+            if (front == null) {
+                if (!pendingChildren.isEmpty()) {
+                    pendingChildren.add(null);
+                }
+            } else {
+                System.out.print(front.data + " : Left -> ");
+//                For Left Child
+                if (front.left != null) {
+                    pendingChildren.add(front.left);
+                    System.out.print(front.left.data + ", Right -> ");
+                } else {
+                    System.out.print("null" + ", Right -> ");
+                }
+//                For Right Child
+                if (front.right != null) {
+                    pendingChildren.add(front.right);
+                    System.out.print(front.right.data);
+                } else {
+                    System.out.print("null");
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        var root = levelWiseInput();
+        printLevelWise(root);
+    }
+}
