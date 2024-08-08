@@ -1,0 +1,79 @@
+/*Problem statement
+Given a tree, find and return the node for which sum of data of all children and the node itself is maximum. In the sum, data of node itself and data of immediate children is to be taken.
+
+Input format :
+
+Line 1 : Elements in level order form separated by space (as per done in class). Order is -
+
+Root_data, n (No_Of_Child_Of_Root), n children, and so on for every element
+
+Output format : Node with maximum sum.
+
+Sample Input 1 :
+5 3 1 2 3 1 15 2 4 5 1 6 0 0 0 0
+Representation of input
+
+
+Sample Output 1 :
+1
+Explanation
+Sum of node 1 and it's child (15) is maximum among all the nodes, so the output for this is 1.*/
+import java.util.*;
+public class Solution {
+
+/*	TreeNode structure 
+ * 
+ * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+    static class Pair{
+        TreeNode<Integer>node;
+        int sum;
+        Pair(TreeNode<Integer>node,int sum){
+            this.node=node;
+            this.sum=sum;
+        }
+    }
+    
+	private static ArrayList<Pair> a1=new ArrayList<>();
+    private static int maxSum=Integer.MIN_VALUE;
+    private static Pair maxPair;
+    
+    
+	private static Pair maxPairfn(TreeNode<Integer>root){
+        int allsum=root.data;
+        
+        for(int i=0;i<root.children.size();i++){
+            allsum+=root.children.get(i).data;
+        }
+        
+        Pair result=new Pair(root,allsum);
+        a1.add(result);
+        
+        for(int i=0;i<root.children.size();i++){
+            maxPairfn(root.children.get(i));
+        }
+        
+        for(int i=0;i<a1.size();i++){
+            if(a1.get(i).sum>maxSum){
+                maxSum=a1.get(i).sum;
+                maxPair=a1.get(i);
+            }
+        }
+        return maxPair;
+    }
+    
+    
+	public static TreeNode<Integer> maxSumNode(TreeNode<Integer> root){
+		Pair result=maxPairfn(root);
+        return result.node;
+	}
+	
+		
+}
