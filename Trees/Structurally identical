@@ -1,0 +1,63 @@
+/*Problem statement
+Given two Generic trees, return true if they are structurally identical i.e. they are made of nodes with the same values arranged in the same way.
+
+Detailed explanation ( Input/output format, Notes, Images )
+Sample Input 1 :
+10 3 20 30 40 2 40 50 0 0 0 0 
+10 3 20 30 40 2 40 50 0 0 0 0
+Sample Output 1 :
+true
+Explanation
+If we draw the tree for the above inputs, both the trees will look like this. So the answer for this is true.
+
+
+Sample Input 2 :
+10 3 20 30 40 2 40 50 0 0 0 0 
+10 3 2 30 40 2 40 50 0 0 0 0
+Sample Output 2:
+false*/
+/* Given two Generic trees, return true if they are structurally identical i.e. they are made of nodes with the same values arranged in the same way. */
+
+
+import java.util.ArrayList;
+public class Solution {
+
+/*	TreeNode structure 
+ * 
+ * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+    private static ArrayList<Integer> storeNodeToArraylit(TreeNode<Integer> root,ArrayList<Integer> a){
+        a.add(root.data);
+        for(int i=0;i<root.children.size();i++){
+            storeNodeToArraylit(root.children.get(i),a);
+        }
+        return a;
+    }
+	
+	public static boolean checkIdentical(TreeNode<Integer> root1, TreeNode<Integer> root2){
+		ArrayList<Integer> a1=new ArrayList<>();
+            a1=storeNodeToArraylit(root1,a1);
+        ArrayList<Integer> a2=new ArrayList<>();
+            a2=storeNodeToArraylit(root2,a2);
+        
+        if(a1.size() > a2.size()  || a1.size() < a2.size()){
+            return false;
+        }else{
+            for(int i=0;i<a1.size();i++){
+                if(a1.get(i) != a2.get(i)){
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+	}
+	
+}
