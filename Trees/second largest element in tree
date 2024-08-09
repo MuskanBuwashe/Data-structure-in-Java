@@ -1,0 +1,46 @@
+/*Problem statement
+Given a generic tree, find and return the node with second largest value in given tree. Return NULL if no node with required value is present.
+
+Detailed explanation ( Input/output format, Notes, Images )
+Sample Input 1 :
+10 3 20 30 40 2 40 50 0 0 0 0 
+Sample Output 1 :
+40*/
+import java.util.*;
+public class Solution {
+
+/*	TreeNode structure 
+ * 
+ * class TreeNode<T> {
+		T data;
+		ArrayList<TreeNode<T>> children;
+
+		TreeNode(T data){
+			this.data = data;
+			children = new ArrayList<TreeNode<T>>();
+		}
+	}*/
+	
+		
+	private static TreeNode<Integer>largest=new TreeNode<>(Integer.MIN_VALUE);
+    private static TreeNode<Integer>secondLargest=new TreeNode<>(Integer.MIN_VALUE);
+    
+    
+	public static TreeNode<Integer> findSecondLargest(TreeNode<Integer> root){
+        if(root.data>largest.data){
+            if(largest.data != Integer.MIN_VALUE){
+                secondLargest=largest;
+            }
+            largest=root;
+        }else if(root.data>secondLargest.data && root.data<largest.data){
+            secondLargest=root;
+        }
+        
+        for(int i=0;i<root.children.size();i++){
+            findSecondLargest(root.children.get(i));
+        }
+        return secondLargest;
+	}
+	
+	
+}
