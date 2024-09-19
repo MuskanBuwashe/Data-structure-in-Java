@@ -1,0 +1,52 @@
+/*Problem statement
+ Given two strings S and T with lengths M and N. Find and return the length of their shortest 'Super Sequence'.
+
+ The shortest 'Super Sequence' of two strings is defined as the smallest string possible that will have both the given strings as its subsequences.
+
+Note :
+If the two strings do not have any common characters, then return the sum of the lengths of the two strings. 
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints :
+0 <= M <= 10 ^ 3
+0 <= N <= 10 ^ 3
+
+Time Limit: 1 sec
+Sample Input 1 :
+ab
+ac
+Sample Output 1 :
+3
+Explanation of Sample Output 1 :
+Their smallest super sequence can be "abc" which has length = 3.
+Sample Input 2 :
+pqqrpt
+qerepct
+Sample Output 2 :
+9*/
+
+public class Solution
+{
+	public static int smallestSuperSequence(String str1, String str2)
+    {
+        int dp[][] = new int[str1.length()+1][str2.length()+1];
+        for(int i=0;i<dp.length;i++)
+        {
+            dp[i][0]=i;
+        }
+        for(int i=0;i<dp[0].length;i++)
+        {
+            dp[0][i]=i;
+        }
+        for(int i=1;i<dp.length;i++)
+        {
+            for(int j=1;j<dp[0].length;j++)
+            {
+                if(str1.charAt(i-1)==str2.charAt(j-1))
+                    dp[i][j]=dp[i-1][j-1]+1;
+                else
+                    dp[i][j]=Math.min(dp[i][j-1],dp[i-1][j])+1;
+            }
+        }
+        return dp[str1.length()][str2.length()];
+    }
+}
